@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from Object_Repository.WebScrapperObjRepo import WebdriverObjRepo
 from Webriver.webdriver import Webdriver
 loginpageobj=WebdriverObjRepo()
-
+webdrive=Webdriver()
 class loginpage(WebdriverObjRepo):
     global jsonFile
     jsonFile= open("data.json", "w")
@@ -42,10 +42,12 @@ class loginpage(WebdriverObjRepo):
                 time.sleep(2)
                 self.driver.switch_to.window(self.driver.window_handles[1])
                 time.sleep(2)
-                self.getReview()
+                mydict=self.getReview()
                 self.driver.close()
                 self.driver.switch_to.window(self.driver.window_handles[0])
+
         jsonFile.close()
+        return mydict
 
 
     def getReview(self):
@@ -62,6 +64,7 @@ class loginpage(WebdriverObjRepo):
                       "Comment": individualprosummary}
             jsonString = json.dumps(mydict)
             jsonFile.write(jsonString)
+        return jsonString
 
     def driverclose(self):
         self.driver.close()
@@ -72,15 +75,6 @@ class loginpage(WebdriverObjRepo):
 
 
 
-
-
-
-webdrive=Webdriver()
-webdrive.OpenUrl("https://www.flipkart.com/")
-intialpage=loginpage("Iphone17")
-intialpage.entertext()
-intialpage.searchresult()
-intialpage.driverclose()
 
 
 
