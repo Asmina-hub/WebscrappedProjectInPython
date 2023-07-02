@@ -13,7 +13,7 @@ class Webdriver:
         #start = timeit.default_timer()
         global chrome_options
         chrome_options = Options()
-        #chrome_options.add_argument("--headless--")
+        chrome_options.add_argument('--headless')
         chrome_options.add_argument("--window-size=1920x1080")
     def OpenUrl(self,url):
         self.webdriverinitialization()

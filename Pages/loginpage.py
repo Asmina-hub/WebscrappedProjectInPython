@@ -6,14 +6,15 @@ from selenium.webdriver.common.by import By
 
 from Object_Repository.WebScrapperObjRepo import WebdriverObjRepo
 from Webriver.webdriver import Webdriver
-loginpageobj=WebdriverObjRepo()
-webdrive=Webdriver()
+loginpageobj = WebdriverObjRepo()
+webdrive = Webdriver()
+arraylist = []
 class loginpage(WebdriverObjRepo):
     global jsonFile
     jsonFile= open("data.json", "w")
-    def __init__(self, value):
+    def __init__(self, value,driver):
         self.value=value
-        self.driver=webdrive.driver
+        self.driver=driver
         self.closebutton=loginpageobj.closebutton
         self.textbox=loginpageobj.textbox
         self.search=loginpageobj.search
@@ -36,19 +37,19 @@ class loginpage(WebdriverObjRepo):
         for i in range(1,2):
             time.sleep(5)
             self.clickonpagenumber(1)
-            for j in range(1,25):
+            for j in range(1,2):
                 time.sleep(2)
                 self.driver.find_element(By.XPATH, loginpageobj.clickontheitem(str(j))).click()
                 time.sleep(2)
                 self.driver.switch_to.window(self.driver.window_handles[1])
                 time.sleep(2)
-                mydict=self.getReview()
+                self.getReview()
                 self.driver.close()
                 self.driver.switch_to.window(self.driver.window_handles[0])
-
-        jsonFile.close()
-        return mydict
-
+        #jsonString = json.dumps(arraylist)
+        #jsonFile.write(jsonString)
+        return arraylist
+        #jsonFile.close()
 
     def getReview(self):
         productname = self.driver.find_element(By.XPATH, loginpageobj.productname).text
@@ -62,9 +63,7 @@ class loginpage(WebdriverObjRepo):
             individualprosummary = self.driver.find_element(By.XPATH, loginpageobj.individualreviewcomments(str(i))).text
             mydict = {"Product": productname, "Rating": individualprorating, "CommentHead": individualprotitle,
                       "Comment": individualprosummary}
-            jsonString = json.dumps(mydict)
-            jsonFile.write(jsonString)
-        return jsonString
+            arraylist.append(mydict)
 
     def driverclose(self):
         self.driver.close()

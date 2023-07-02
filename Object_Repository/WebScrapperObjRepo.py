@@ -11,7 +11,7 @@ class WebdriverObjRepo(Webdriver):
          rating='//div[@class="_2d4LTz"]'
          reviewclick='//span[contains(text(),"reviews")]'
          def individualrating(self,i):
-             eachrating='(//div[@class="_3LWZlK _1BLPMq"])['+i+']'
+             eachrating='(//div[contains(@class,"_3LWZlK _")])['+i+']'
              return eachrating
          def individualreviewtitle(self,i):
              eachrating='(//p[@class="_2-N8zT"])['+i+']'

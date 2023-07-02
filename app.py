@@ -18,6 +18,7 @@ def homepage():
 def index():
     if request.method == 'POST':
         searchString = request.form['content'].replace(" ","") # obtaining the search string entered in the form
+        #searchString='iphone 7'
         try:
             flipkart_url = "https://www.flipkart.com/search?q=" + searchString # preparing the URL to search the product on flipkart
             uClient = uReq(flipkart_url) # requesting the webpage from the internet
@@ -72,4 +73,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(port=8000,debug=True) # running the app on the local machine on port 8000
+    app.run(port=8001,debug=True) # running the app on the local machine on port 8000

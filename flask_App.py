@@ -2,13 +2,13 @@ import requests
 
 import pymongo
 from flask import Flask, render_template, request
-
+import json
 from Pages.loginpage import loginpage
 from Webriver.webdriver import Webdriver
-
+from urllib.request import urlopen as uReq
 app = Flask(__name__)  # initialising the flask app with the name 'app'
 @app.route('/',methods=['POST','GET'])
-def methodStart():
+def index():
     if request.method =='POST':
         searchstring = request.form['content'].replace(" ", "")
         try:
@@ -20,18 +20,16 @@ def methodStart():
             else:
                 webdrive = Webdriver()
                 webdrive.OpenUrl("https://www.flipkart.com/")
-                intialpage = loginpage(searchstring)
+                intialpage = loginpage(searchstring,webdrive.driver)
                 intialpage.entertext()
-                mydict=intialpage.searchresult()
+                listofName=intialpage.searchresult()
                 table = db[searchstring]
-                reviews = []
-                x = table.insert_many(mydict)  # insertig the dictionary containing the rview comments to the collection
-                reviews.append(mydict)
-                return render_template('results.html', reviews=reviews)
+                table.insert_many(listofName)
+                return render_template('results.html', reviews=listofName)
         except:
             return 'something is wrong'
     else:
         return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(port=49675,debug=True) # running the app on the local machine on port 8000
+    app.run(port=8007,debug=True) # running the app on the local machine on port 8000
